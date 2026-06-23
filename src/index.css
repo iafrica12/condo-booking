@@ -1,0 +1,278 @@
+/* ==========================================================================
+   ELEGANT LUXURY CONFIGURATION (Champagne & Obsidian Palette)
+   ========================================================================== */
+:root {
+  --gold-primary: #c5a880; /* Premium Muted Gold */
+  --gold-hover: #b39369;
+  --dark-estate: #11141a; /* Rich Obsidian */
+  --bg-creme: #fcfbfa; /* Off-white editorial background */
+  --bg-card: #ffffff;
+  --border-delicate: #eae6e1;
+  --text-primary: #1c1f24;
+  --text-muted: #737880;
+  
+  --radius-luxury: 4px; /* Harder, sharper high-end edges */
+  --transition-smooth: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-creme);
+  color: var(--text-primary);
+  font-family: 'Playfair Display', 'Didot', 'Georgia', serif; /* Editorial Font Accent */
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Modern San-serif for structural form/UI components */
+input, button, label, .badge, p {
+  font-family: 'Inter', 'Helvetica Neue', sans-serif;
+}
+
+.app-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 5rem 2rem;
+}
+
+.app-header {
+  text-align: center;
+  margin-bottom: 6rem;
+}
+
+.app-header h1 {
+  font-size: 3rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  color: var(--dark-estate);
+}
+
+.app-header p {
+  font-size: 1rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+
+/* ==========================================================================
+   IMAGE STYLING & CONDO CARDS
+   ========================================================================== */
+.condo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 3.5rem;
+}
+
+.condo-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-delicate);
+  border-radius: var(--radius-luxury);
+  overflow: hidden;
+  transition: var(--transition-smooth);
+}
+
+/* Soft cinematic frame for images */
+.image-wrapper {
+  overflow: hidden;
+  position: relative;
+  background-color: var(--dark-estate);
+}
+
+.condo-image {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  opacity: 0.95;
+  transition: var(--transition-smooth);
+  filter: grayscale(15%) contrast(105%); /* High fashion photography feel */
+}
+
+.condo-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 30px 50px -20px rgba(28, 31, 36, 0.12);
+  border-color: var(--gold-primary);
+}
+
+.condo-card:hover .condo-image {
+  transform: scale(1.05);
+  opacity: 1;
+  filter: grayscale(0%) contrast(100%);
+}
+
+.condo-info {
+  padding: 2rem;
+}
+
+.condo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.condo-header h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--dark-estate);
+  line-height: 1.3;
+}
+
+.condo-location {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+
+.condo-price {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  border-top: 1px dashed var(--border-delicate);
+  padding-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.condo-price strong {
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: var(--dark-estate);
+}
+
+/* ==========================================================================
+   HIGH-END LUXURY BOOKING FORM / MODAL
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(17, 20, 26, 0.7); /* Deep dark overlay */
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: var(--bg-card);
+  padding: 3.5rem 3rem;
+  border-radius: var(--radius-luxury);
+  max-width: 500px;
+  width: 90%;
+  border: 1px solid var(--gold-primary);
+  box-shadow: 0 40px 70px -15px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header-luxury {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.modal-header-luxury h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.modal-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
+/* Bespoke Inputs style */
+.form-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--dark-estate);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.atom-input {
+  width: 100%;
+  padding: 1rem 0.75rem;
+  background-color: transparent;
+  color: var(--text-primary);
+  border: none;
+  border-bottom: 1px solid var(--border-delicate); /* Sleek underline inputs */
+  border-radius: 0;
+  font-size: 1rem;
+  transition: var(--transition-smooth);
+  box-sizing: border-box;
+}
+
+.atom-input:focus {
+  outline: none;
+  border-bottom: 1px solid var(--dark-estate);
+}
+
+.form-row-dates {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+/* Buttons System */
+.btn, .btn-luxury-primary, .btn-luxury-secondary {
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 1.1rem 1.5rem;
+  border-radius: var(--radius-luxury);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  width: 100%;
+}
+
+.btn-primary, .btn-luxury-primary {
+  background-color: var(--dark-estate);
+  color: #ffffff;
+  border: 1px solid var(--dark-estate);
+}
+
+.btn-primary:hover, .btn-luxury-primary:hover {
+  background-color: transparent;
+  color: var(--dark-estate);
+}
+
+.btn-luxury-secondary {
+  background-color: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border-delicate);
+}
+
+.btn-luxury-secondary:hover {
+  border-color: var(--dark-estate);
+  color: var(--dark-estate);
+}
+
+.btn-disabled {
+  background-color: #f1effc;
+  color: #b8b3cc;
+  cursor: not-allowed;
+  border: 1px solid var(--border-delicate);
+}
+
+/* Badges */
+.badge {
+  font-size: 0.65rem;
+  padding: 0.4rem 0.8rem;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  border-radius: 0;
+}
+.badge-available { background-color: #f4efe9; color: var(--gold-primary); border: 1px solid var(--gold-primary); }
+.badge-booked { background-color: #f5f5f5; color: #a1a1a1; text-decoration: line-through; }
