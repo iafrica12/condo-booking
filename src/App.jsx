@@ -1,18 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CondoGrid from './components/organisms/CondoGrid';
 import BookingModal from './components/organisms/BookingModal';
+import { db } from './firebase'; 
+import { collection, getDocs, doc, updateDoc, addDoc } from 'firebase/firestore';
 import './index.css';
 
-const INITIAL_CONDOS = [
-  { id: 1, name: "The Aurelia Residence Penthouse", location: "Bonifacio Global City, Taguig", price: "24,500", status: "Available", image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80" },
-  { id: 2, name: "Shang Residences Studio Oasis", location: "Mandaluyong City", price: "8,200", status: "Available", image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&q=80" },
-  { id: 3, name: "Proscenium Signature Loft", location: "Rockwell Center, Makati", price: "14,000", status: "Booked", image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&q=80" },
-  { id: 4, name: "The Ritz-Carlton Estate", location: "Enterprise Center, Makati", price: "45,000", status: "Available", image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80" }
-];
-
 function App() {
-  const [condos, setCondos] = useState(INITIAL_CONDOS);
+  const [condos, setCondos] = useState([]);
   const [selectedCondo, setSelectedCondo] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCondos = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "condos"));
+        const condoData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setCondos(condoData);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching documents from Firestore: ", error);
+        setLoading(false);
+      }
+    };
+
+    fetchCondos();
+  }, []);
 
   const handleOpenModal = (condo) => {
     setSelectedCondo(condo);
@@ -22,16 +37,41 @@ function App() {
     setSelectedCondo(null);
   };
 
-  const handleConfirmBooking = (condoId, clientData) => {
-    setCondos(prevCondos => 
-      prevCondos.map(condo => 
-        condo.id === condoId ? { ...condo, status: 'Booked' } : condo
-      )
-    );
-    
-    alert(`Success! ${selectedCondo.name} has been reserved for ${clientData.name}.`);
-    handleCloseModal();
+  const handleConfirmBooking = async (condoId, clientData) => {
+    try {
+      await addDoc(collection(db, "reservations"), {
+        condoId: condoId,
+        condoName: selectedCondo.name,
+        guestName: clientData.name,
+        guestEmail: clientData.email,
+        checkIn: clientData.checkIn,
+        checkOut: clientData.checkOut,
+        timestamp: new Date()
+      });
+
+      const condoRef = doc(db, "condos", condoId);
+      await updateDoc(condoRef, { status: "Booked" });
+
+      setCondos(prevCondos =>
+        prevCondos.map(condo =>
+          condo.id === condoId ? { ...condo, status: 'Booked' } : condo
+        )
+      );
+
+      alert(`Inquiry successfully registered! ${selectedCondo.name} has been secured.`);
+      handleCloseModal();
+    } catch (error) {
+      console.error("Transaction failed: ", error);
+    }
   };
+
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', fontFamily: 'sans-serif', color: '#737880', letterSpacing: '0.1em' }}>
+        LOADING ESTATE INVENTORY...
+      </div>
+    );
+  }
 
   return (
     <div className="app-container">
@@ -41,7 +81,11 @@ function App() {
       </header>
       
       <main>
-        <CondoGrid condos={condos} onSelectCondo={handleOpenModal} />
+        {condos.length === 0 ? (
+          <p style={{ textAlign: 'center', color: '#737880' }}>No estate listings found in database.</p>
+        ) : (
+          <CondoGrid condos={condos} onSelectCondo={handleOpenModal} />
+        )}
       </main>
 
       <BookingModal 
