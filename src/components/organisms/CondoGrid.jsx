@@ -1,21 +1,19 @@
 import React from 'react';
 import CondoCard from '../molecules/CondoCard';
 
-const CondoGrid = ({ condos, onSelectCondo }) => {
+function CondoGrid({ condos, onSelectCondo, onReleaseCondo }) {
   return (
-    <section className="condo-grid-container">
-      <h2>Available Condo Units</h2>
-      <div className="condo-grid">
-        {condos.map((condo) => (
-          <CondoCard 
-            key={condo.id} 
-            condo={condo} 
-            onBookClick={() => onSelectCondo(condo)} 
-          />
-        ))}
-      </div>
-    </section>
+    <div className="condo-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '2rem', padding: '2rem' }}>
+      {condos.map((condo) => (
+        <CondoCard 
+          key={condo.id} 
+          condo={condo} 
+          onSelectCondo={onSelectCondo} 
+          onReleaseCondo={onReleaseCondo} // 👈 Pass it down here
+        />
+      ))}
+    </div>
   );
-};
+}
 
 export default CondoGrid;
